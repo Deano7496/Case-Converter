@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Case Converter</title>
+</head>
+<body>
+<div class="title">Case Converter</div>
+<label>
+    <textarea></textarea>
+</label>
+<button id="upper-case">upper-case</button>
+<button id="lower-case">lower-case</button>
+<button id="proper-case">proper-case</button>
+<button id="sentence-case">sentence-case</button>
+<button id="save-text-file">save-text-file</button>
+<script>
+    let area = document.querySelector("textarea");
+    document.getElementById("upper-case").addEventListener("click", function() {
+        area.value = area.value.toUpperCase();
+    });
+    document.getElementById("lower-case").addEventListener("click", function () {
+        area.value = area.value.toLowerCase();
+    });
+    document.getElementById("proper-case").addEventListener("click", function () {
+        let text = area.value.split(" ");
+        text.forEach((value, index) => {
+            text[index] = value.charAt(0).toUpperCase() + value.substring(1).toLowerCase();
+        });
+        area.value = text.join(" ");
+    });
+    document.getElementById("sentence-case").addEventListener("click", function () {
+        let text = area.value.split(". ");
+        text.forEach((value, index) => {
+            text[index] = value.charAt(0).toUpperCase() + value.substring(1).toLowerCase();
+        });
+        area.value = text.join(". ");
+    });
+    function download(filename, text) {
+        let element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+    }
+
+    // Start file download.
+    document.getElementById("save-text-file").addEventListener("click", function(){
+        // Generate download of text.txt file with some content
+        var text = document.getElementById("save-text-file").value;
+        var filename = "text.txt";
+
+        download("text.txt", document.querySelector("textarea").value);
+    }, false);
+</script>
+</body>
+</html>
